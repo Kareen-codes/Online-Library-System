@@ -1,0 +1,1 @@
+This is an API for an online library system. It creates endpoints to allow users to be able to perform basic CRUD operations and search.
