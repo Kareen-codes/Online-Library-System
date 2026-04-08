@@ -74,3 +74,17 @@ class AuthorUpdate(BaseModel):
     name: Optional[str] = None
     bio: Optional[str] =None
     
+
+class BookEdit(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    book_id: int
+    title: str
+    authors: List[AuthorNameOnly] = Field(default_factory=list)
+
+    isbn: Optional[str] = None
+    description: Optional[str] = None
+    published_date: Optional[date] = None
+    category_id: Optional[int] = None
+
+    

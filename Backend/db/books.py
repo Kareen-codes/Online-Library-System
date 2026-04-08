@@ -1,8 +1,8 @@
 from fastapi import HTTPException
 from .authors import attach_authors
 from typing import Optional, List 
-from schemas import BookRead, newBook, UpdateBook
-from sqlalchemy import func
+from schemas import BookRead, newBook, UpdateBook, BookEdit
+from sqlalchemy import func, or_
 from sqlalchemy.orm import Session, selectinload
 from models import Book, Author, Category
 
@@ -51,7 +51,7 @@ def AddBooks(book: newBook, db: Session) ->BookRead:
     return db_book
 
 
-def DisplayBooks(book_id: int, db: Session ) ->BookRead:
+def DisplayBooks(book_id: int, db: Session ) ->BookEdit:
     
     fetchedBooks = (
         db.query(Book).options(selectinload(Book.category), selectinload(Book.authors))
@@ -72,7 +72,7 @@ def DisplayAllBooks(db: Session) -> List[BookRead]:
 
 
 
-def UpdateBooks(book_id: int, book: UpdateBook, db: Session ) ->BookRead:
+def UpdateBooks(book_id: int, book: UpdateBook, db: Session ) ->BookEdit:
     db_book = (
         db.query(Book)
         .filter(Book.book_id == book_id, Book.is_deleted == False) 
@@ -113,31 +113,28 @@ def DeleteBooks(book_id: int, db: Session ):
     db.commit()
     return {"detail": "Book soft-deleted successfully"}
 
-def searchBooks(book_id: int, db: Session ,author: Optional[str] = None, title: Optional[str] = None) ->List[BookRead] :
-    db_book = db.query(Book).filter( Book.is_deleted == False).options(
-              selectinload(Book.authors),
-              selectinload(Book.category),
-          )
-
+def searchBooks( query: str, db: Session) ->List[BookRead] :
     
-    if book_id:
-        db_book = db_book.filter(Book.book_id == book_id)
+   
+    q = query.strip().lower()
     
-    if title:
-        db_book = db_book.filter(func.lower(Book.title).ilike(f"%{title.strip().lower()}%"))
-    
-    if author:
-        db_book = (
-            db_book.join(Book.authors)
-             .filter(                 
-                     func.lower(Author.name).ilike(f"%{author.strip().lower()}%")                    
-             )
-             .distinct(Book.book_id)
-        )
+    db_book = db.query(Book).join(Book.authors).options(selectinload(Book.authors)).filter(or_(func.lower(Book.title).ilike(f"%{q}%"), func.lower(Author.name).ilike(f"%{q}%")) ,Book.is_deleted == False).distinct(Book.book_id).all()
+     
+
+    return db_book
+
+def filterBooks(  category_ids: List[int], db: Session )->List[BookRead]:
+      
+   
+   category = db.query(Category).filter(Category.category_id.in_(category_ids)).all()
+   if not category:
+       raise HTTPException(status_code=404, detail="Category not found")
+   
+   books = db.query( Book).filter(Book.category_id.in_(category_ids), Book.is_deleted== False).all()
+   
 
 
-    
-
-    return db_book.all()
-
+   
+   
+   return books
 

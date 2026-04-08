@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Response
+from fastapi.middleware.cors import CORSMiddleware
 from database import engine
 from models import  Base
 
@@ -13,10 +14,15 @@ from routers.books import router as books_router
 
 
 
-
+Base.metadata.create_all(bind=engine)
 app = FastAPI(title = "Online Library Application")
 
-Base.metadata.create_all(bind=engine)
+
+
+app.add_middleware(CORSMiddleware, allow_origins=[
+        "http://127.0.0.1:5500",
+        "http://localhost:5500",
+], allow_methods=["*"],  allow_credentials=True, allow_headers=["*"])
 
 
 app.include_router(authors_router)
@@ -31,3 +37,6 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 def read_root():
     return Response("Server is running")
 
+@app.get("/")
+def read_root():
+    return Response("Return response successful")

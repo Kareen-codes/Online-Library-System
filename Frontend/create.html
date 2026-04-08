@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Labs — Add Book</title>
+  <link href="./CSS/form.css" rel="stylesheet">
+</head>
+
+<body>
+
+<h1>Add Book</h1>
+
+<form  method="post" enctype="multipart/form-data" novalidate>
+
+  <div class="field">
+    <label for="cover">Book Cover</label>
+    <input type="file" id="cover" name="cover" accept="image/jpeg,image/png">
+  </div>
+
+  <div class="field">
+    <label for="title">Title *</label>
+    <input type="text" name="title" id="title" required>
+  </div>
+
+  <div class="field">
+    <label for="authors">Authors *</label>
+    <input
+      type="text"
+      name="authors"
+      id="authors"
+      placeholder="Comma-separated (e.g. Chinua Achebe, Wole Soyinka)"
+      required>
+  </div>
+
+  <div class="field">
+    <label for="isbn">ISBN *</label>
+    <input
+      type="text"
+      name="isbn"
+      id="isbn"
+      required
+      inputmode="numeric"
+      placeholder="ISBN-10 (e.g. 048665088X) or ISBN-13 (e.g. 9781402894626)">
+  </div>
+
+  <div class="field">
+    <label for="description">Description</label>
+    <textarea name="description" id="description"></textarea>
+  </div>
+
+  <div class="field">
+    <label for="published_date">Publication Date</label>
+    <input type="date" name="published_date" id="published_date">
+  </div>
+
+  <!-- ✅ Category UI fix -->
+  <div class="field">
+    <label for="category_id">Category *</label>
+    <select name="category_id" id="category_id" required>
+      <option value="">Select category</option>
+    </select>
+  </div>
+
+  <!-- ✅ Error message (minimal addition) -->
+  <p id="form-error" style="color: red; margin-top: 0.5rem; display: none;"></p>
+
+  <div class="actions">
+    <button type="submit" class="submit">Save Book</button>
+    <button type="button" class="cancel">Cancel</button>
+  </div>
+
+</form>
+
+<script src="JS/create.js"></script>
+</body>
+</html>

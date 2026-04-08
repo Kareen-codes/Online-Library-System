@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Labs: Explore various literature </title>
+    <link href="./CSS/index.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet">
+   
+</head>
+<body>
+    <header>
+        <h1>BookLabs</h1>
+        <div class="search"> <input type="text"id="search_query" placeholder = "search by author or book title..."><button type="button" id="searchBtn">SEARCH</button></div>
+       
+        <a href="./create.html"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+    </header>
+
+    <main>
+       
+        <aside id="category">
+        <!--    <div class="filter">
+              <h2>Filter</h2>
+              <i class="fa fa-filter" aria-hidden="true" id="filtering_btn"></i>
+            </div>
+
+             <form class="categories">
+                <button id="allBtn" type="button">ALL</button>
+                <div><input type="checkbox" class="categoryBtns" name="tech" id="tech" value="1">Technology</label></div>
+                
+            </form>  
+            
+            
+            <button class="btn">New Category</button>-->
+        
+        </aside>
+
+       <section>
+        <h2>Books Library</h2>
+        
+       <!-- <article>
+            <img src="https://miblart.com/wp-content/uploads/2020/01/crime-and-mystery-cover-scaled-1.jpeg" alt="Book image">
+           <div class="book_details">
+              <p>Title: </p>
+              <p>Author: </p>
+              <p>Description:<br> </p>
+           </div>
+            
+            <div class="buttons">
+                <button class="btn" type="button">Edit</button>
+                <button class="btn" id="delete_Btn" type="button">Delete</button>
+            </div>
+        </article> -->
+         <p class="hide-content message" >Book Not Available</p>
+        <div id="books">           
+        </div>
+
+       </section>
+
+       <footer>
+        <button class="prev">&lt;</button>
+        <button class="next">&gt;</button>
+       </footer>
+
+    </main>
+
+<script type="module" src="./JS/index.js"></script>
+
+    
+</body>
+</html>

@@ -1,0 +1,144 @@
+  :root {
+    --ey-yellow: #FFE600;
+    --ey-black: #1A1A1A;
+    --ey-white: #FFFFFF;
+    --ey-gray-bg: #F5F6F8;
+    --ey-gray-border: #D1D5DB;
+  }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(
+      120deg,
+      var(--ey-gray-bg) 0%,
+      #ffffff 100%
+    );
+    padding: 2rem;
+    color: var(--ey-black);
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ey-black)
+  }
+
+  h1::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--ey-yellow);
+    margin: 0.5rem auto 0;
+    border-radius: 2px;
+  }
+
+  form {
+    max-width: 600px;
+    margin: auto;
+    background: var(--ey-white);
+    padding: 2rem;
+    border-radius: 12px;
+    border-top: 6px solid var(--ey-yellow);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.2rem;
+  }
+
+  label {
+    margin-bottom: 0.4rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  input,
+  textarea {
+    padding: 0.65rem 0.75rem;
+    border: 1px solid var(--ey-gray-border);
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #fff;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  input:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--ey-yellow);
+    box-shadow: 0 0 0 3px rgba(255, 230, 0, 0.35);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  input[type="file"] {
+    padding: 0.4rem 0.2rem;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  button {
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .submit {
+    background: var(--ey-yellow);
+    color: var(--ey-white);
+    border: none;
+  }
+
+  .submit:hover {
+    background: var(--ey-black);
+    transition: 0.3s ease;
+  }
+
+  .cancel {
+    background: transparent;
+    border: 1px solid var(--ey-gray-border);
+    color: var(--ey-black);
+  }
+
+  .cancel:hover {
+    border-color: var(--ey-black);
+    transition: 0.3s ease;
+  }
+
+  @media screen and (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+
+  form {
+    padding: 1.25rem;
+    border-radius: 10px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  button {
+    width: 100%;
+  }
+}

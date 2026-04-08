@@ -1,0 +1,14 @@
+__pycache__/
+**/__pycache__/
+.env
+
+
+test.db-shm
+test.db-wal
+test.db
+
+
+
+.vscode/
+*.log
+*.DS_Store
