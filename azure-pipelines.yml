@@ -1,19 +1,49 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- main
+  - main
 
 pool:
-  name: azure-hosted-agent
+  name: "azure-hosted-agent"
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  sshService: 'ssh-to-nginx-vm'
+  webRoot: '/var/www/html'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+  - stage: DeployHTML
+    displayName: 'Deploy HTML Page to Azure VM'
+    jobs:
+      - job: Deploy
+        displayName: 'Copy index.html to NGINX web root'
+        steps:
+          - checkout: self
+
+          - task: SSH@0
+            inputs:
+              sshEndpoint: '$(sshService)'
+              runOptions: 'inline'
+              inline: |
+                sudo usermod -aG www-data $(whoami)
+                sudo chown -R www-data:www-data /var/www/html
+                sudo chmod -R 775 /var/www/html
+            displayName: 'Set secure permissions for web root'
+
+          - task: CopyFilesOverSSH@0
+            inputs:
+              sshEndpoint: '$(sshService)'
+              sourceFolder: '$(Build.SourcesDirectory)'
+              contents: |
+                **/*
+                !.git/**
+                !.gitignore
+                !.dockerignore
+              targetFolder: '$(webRoot)'
+            displayName: 'Deploy exixting repository (excluding git)'
+
+          - task: SSH@0
+            inputs:
+              sshEndpoint: '$(sshService)'
+              runOptions: 'inline'
+              inline: |
+                echo "Restarting NGINX..."
+                sudo systemctl restart nginx
+            displayName: 'Restart NGINX on VM'
